@@ -81,8 +81,5 @@ lba0:   .long 1                  # Read from 2nd block (code I want to load)
     .long 0                  # Large LBAs, dunno what this does
 
 
-#sources : https://wiki.osdev.org/ATA_in_x86_RealMode_(BIOS)
-#   	   https://stackoverflow.com/questions/32309719/int-13-extension-read-in-c
-#			and all links in hw write-up
 .org 0x1fe
 .word 0xAA55
