@@ -294,6 +294,7 @@ bootsplash.img: bootsplash.S
 	as bootsplash.S -o bootsplash.o
 	ld -Ttext=0x7c00 -e start bootsplash.o -o bootsplashlinked.o
 	objcopy -O binary bootsplashlinked.o bootsplash.img
+	dd if=cover.raw of=bootsplash.img seek=1
 
 bootskel.img: bootskel.S
 	as bootskel.S -o bootskel.o
