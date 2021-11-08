@@ -13,6 +13,9 @@
 #include "memlayout.h"
 #include "iso9660.h"
 
+#define len_fi(rte) ((rte & 0x010000000)>>33)
+#define ARBITRARY_LARGE_NUMBER 100
+
   static void 
 read_block_range(char* dst, uint start_block, uint count) {
   for (int block=start_block;block<start_block+count;block++) {
@@ -42,17 +45,82 @@ iso9660fs_writei(struct inode* ip, char* buf, uint offset, uint count)
   return -1;
 }
 
+/**
+ * @brief reads contents of file represented by inode ip, into the buffer dst
+ * 
+ * @param ip inode pointer of file
+ * @param dst output buffer to read info to
+ * @param offset offset in file to begin reading
+ * @param size number of bytes to read
+ * @return int number of bytes read
+ * struct inode {
+  uint dev;           // Device number
+  uint inum;          // Inode number
+  int ref;            // Reference count
+  struct sleeplock lock;
+  int flags;          // I_VALID
+
+  uint mounted_dev;   // if this inode is a mount point, mounted_dev is the dev of contained files
+  struct inode_functions *i_func;
+
+  short type;         // copy of disk inode
+  short major;
+  short minor;
+  short nlink;
+  uint size;
+  uint addrs[NDIRECT+1];
+};
+*/
   int
 iso9660fs_readi(struct inode* ip, char* dst, uint offset, uint size)
 {
+  /*Kevin - HW6*/
+  struct iso9660_pvd_s pvd;
+  read_block_range(&pvd,64,4);
+  int path_table = (pvd.root_directory_record.extent *2048)/512;// iso sector size is 2048, xv6 is 512
+  static char * buff[2048] = {0};
+  // 16 * 2048 = 32768 /512 = 64
+  // char* name = &pvd.root_directory_record.filename.str[1];//iso voodoo, the name starts at 1 not 0
+  // //read path table
+  // read_block_range(buff,path_table,4);// why 4? 512*4 = 2048
+  // struct iso9660_dir_s *entry = buff;
+  // while(entry->length)
+  // {
+  //   long double x = 2;
+  //   int i = 0;
+  //   for(;i<entry->filename.len;++i)
+  //   {
+  //     // cprintf("i%d\n",i);
+  //     cprintf("%c",entry->filename.str[1+i]);
+  //   }
+  //   entry = (struct iso9660_dir_s*) ((char*)entry+entry->length);
+  // }
+
   if ( ip->type == T_DIR ) {
     if(offset==0) {
+      // int path_table = (pvd.root_directory_record.extent *2048)/512;// iso sector size is 2048, xv6 is 512
+      struct iso9660_dir_s *entry = buff;
       struct dirent *de = dst;
-      memmove(de->name,"FAKE.txt",9);
-      de->inum = 1;
-      return sizeof(struct dirent);
+      read_block_range(entry,path_table,4);
+    int bytesread = 0;
+    while (entry->length) {
+      char* fname = &entry->filename.str[1];
+      int fnamelen = &entry->filename.len;
+  
+        //check for parent and current dir names, if so, mark accordingly
+        //  else vvvvv
+      cprintf("moving %s\n",fname);
+      memmove(de->name+bytesread,fname,fnamelen);
+      cprintf("name ->%s\n",de->name);
+      bytesread+=fnamelen;
+      entry = (struct iso9660_dir_s*) ((char*)entry+entry->length);
+    }
+      cprintf("bytesread %d\n",bytesread);
+      cprintf("%s\n",de->name);
+      return bytesread;
     }
     else {
+      cprintf("offset > 0\n");
       return 0;
     }
   }

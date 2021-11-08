@@ -1,0 +1,67 @@
+echo.o: echo.c types.h stat.h user.h
+syscall.o: syscall.c types.h defs.h param.h memlayout.h mmu.h proc.h \
+ x86.h syscall.h
+sysfile.o: sysfile.c types.h defs.h param.h stat.h mmu.h proc.h fs.h \
+ spinlock.h sleeplock.h file.h fcntl.h
+ln.o: ln.c types.h stat.h user.h
+sleeplock.o: sleeplock.c types.h defs.h param.h x86.h memlayout.h mmu.h \
+ proc.h spinlock.h sleeplock.h
+mkfs.o: mkfs.c types.h fs.h stat.h param.h
+spinlock.o: spinlock.c types.h defs.h param.h x86.h memlayout.h mmu.h \
+ proc.h spinlock.h
+kbd.o: kbd.c types.h x86.h defs.h kbd.h
+bootmain.o: bootmain.c types.h x86.h memlayout.h
+wc.o: wc.c types.h stat.h user.h
+ulib.o: ulib.c types.h stat.h fcntl.h user.h x86.h
+printf.o: printf.c types.h stat.h user.h
+uart.o: uart.c types.h defs.h param.h traps.h spinlock.h sleeplock.h fs.h \
+ file.h mmu.h proc.h x86.h
+file.o: file.c types.h defs.h param.h fs.h spinlock.h sleeplock.h file.h
+vm.o: vm.c param.h types.h defs.h x86.h memlayout.h mmu.h proc.h \
+ spinlock.h sleeplock.h file.h
+sysproc.o: sysproc.c types.h x86.h defs.h param.h memlayout.h mmu.h \
+ proc.h
+ls.o: ls.c types.h stat.h user.h fs.h
+forktest.o: forktest.c types.h stat.h user.h
+usertests.o: usertests.c param.h types.h stat.h user.h fs.h fcntl.h \
+ syscall.h traps.h memlayout.h
+fs.o: fs.c types.h defs.h param.h stat.h mmu.h proc.h spinlock.h \
+ sleeplock.h fs.h buf.h file.h iso9660.h
+procfs.o: procfs.c types.h param.h defs.h spinlock.h sleeplock.h file.h \
+ fs.h mmu.h x86.h proc.h memlayout.h
+ide.o: ide.c types.h defs.h param.h memlayout.h mmu.h proc.h x86.h \
+ traps.h spinlock.h sleeplock.h fs.h buf.h
+ioapic.o: ioapic.c types.h defs.h traps.h memlayout.h
+sh.o: sh.c types.h user.h fcntl.h
+kill.o: kill.c types.h stat.h user.h
+trap.o: trap.c types.h defs.h param.h memlayout.h mmu.h proc.h x86.h \
+ traps.h spinlock.h
+main.o: main.c types.h defs.h param.h memlayout.h mmu.h proc.h x86.h
+bio.o: bio.c types.h defs.h param.h spinlock.h sleeplock.h fs.h buf.h
+cat.o: cat.c types.h stat.h user.h
+zombie.o: zombie.c types.h stat.h user.h
+proc.o: proc.c types.h defs.h param.h memlayout.h mmu.h x86.h proc.h \
+ spinlock.h
+mount.o: mount.c types.h user.h
+string.o: string.c types.h x86.h
+memide.o: memide.c types.h defs.h param.h mmu.h proc.h x86.h traps.h \
+ spinlock.h sleeplock.h fs.h buf.h
+umalloc.o: umalloc.c types.h stat.h user.h param.h
+rm.o: rm.c types.h stat.h user.h
+console.o: console.c types.h defs.h param.h traps.h spinlock.h \
+ sleeplock.h fs.h file.h memlayout.h mmu.h proc.h x86.h
+log.o: log.c types.h defs.h param.h spinlock.h sleeplock.h fs.h buf.h
+init.o: init.c types.h stat.h user.h fcntl.h
+lapic.o: lapic.c param.h types.h defs.h date.h memlayout.h traps.h mmu.h \
+ x86.h proc.h
+stressfs.o: stressfs.c types.h stat.h user.h fs.h fcntl.h
+iso9660fs.o: iso9660fs.c types.h param.h defs.h spinlock.h sleeplock.h \
+ file.h fs.h mmu.h x86.h proc.h stat.h buf.h memlayout.h iso9660.h
+mp.o: mp.c types.h defs.h param.h memlayout.h mp.h x86.h mmu.h proc.h
+pipe.o: pipe.c types.h defs.h param.h mmu.h proc.h fs.h spinlock.h \
+ sleeplock.h file.h
+mkdir.o: mkdir.c types.h stat.h user.h
+kalloc.o: kalloc.c types.h defs.h param.h memlayout.h mmu.h spinlock.h
+exec.o: exec.c types.h param.h memlayout.h mmu.h proc.h defs.h x86.h \
+ elf.h spinlock.h sleeplock.h file.h
+grep.o: grep.c types.h stat.h user.h
